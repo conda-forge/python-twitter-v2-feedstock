@@ -1,0 +1,48 @@
+schema_version: 1
+
+context:
+  name: python-twitter-v2
+  version: "0.9.3"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/python_twitter_v2-${{ version }}.tar.gz
+  sha256: e021943cb74f785452d68c87e63e02593ffca9316d6903c4f1799df965654f29
+
+build:
+  number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - poetry-core >=1.0.0
+    - pip
+  run:
+    - python >=${{ python_min }},<4.0.0
+    - requests >=2.28.0,<3.0.0
+    - dataclasses-json >=0.5.7,<0.6.0
+    - authlib >=1.0.0,<2.0.0
+
+tests:
+  - python:
+      imports:
+        - pytwitter
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: A simple Python wrapper for Twitter API v2 ✨ 🍰 ✨
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/sns-sdks/python-twitter
+
+extra:
+  recipe-maintainers:
+    - akrherz
